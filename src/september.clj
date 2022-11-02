@@ -1,5 +1,6 @@
 (ns september
   (:require
+   [components]
    [components.index :as index]
    [clojure.java.io :as io]
    [clojure.string :as string]
@@ -28,7 +29,7 @@
   [:head
    [:meta {:charset "utf-8"}]
    [:title title]
-   [:style css]])
+   [:style (str components/general-styles css)]])
 
 (defn- doc-body [content]
   [:body content])
