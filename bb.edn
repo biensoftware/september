@@ -1,3 +1,3 @@
-{:tasks {uberjar (shell "clojure -T:build org.corfield.build/uber :lib bien/september :main bien.september")
+{:tasks {uberjar (shell "clojure -T:build org.corfield.build/uber :lib september :main september")
          run (shell "java -jar target/september-standalone.jar")
          native (shell "native-image --report-unsupported-elements-at-runtime -jar target/september-standalone.jar -H:Name=september")}}

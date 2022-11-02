@@ -1,4 +1,4 @@
-(ns bien.components.index)
+(ns components.index)
 
 (defn render [{:keys [about]}]
   [:div

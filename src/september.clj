@@ -1,6 +1,6 @@
-(ns bien.september
+(ns september
   (:require
-   [bien.components.index :as component.index]
+   [components.index :as index]
    [clojure.java.io :as io]
    [clojure.string :as string]
    [clojure.walk :refer [keywordize-keys]]
@@ -34,9 +34,10 @@
 
 (defn- compose-index [config]
   (let [write-path (->path root-dir "public" "index.html")
-        content (-> config component.index/render hc/html)
-        document (hp/html5 (doc-head {:title (-> config :about :name)})
-                           (doc-body content))]  
+        content (-> config index/render hc/html)
+        head (doc-head {:title (-> config :about :name)})
+        body (doc-body content)
+        document (hp/html5 head body)]  
     (io/make-parents write-path)
     (spit write-path document)))
 
