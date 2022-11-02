@@ -24,21 +24,30 @@
       toml/read
       keywordize-keys))
 
-(defn- doc-head [{:keys [title]}]
+(defn- doc-head [{:keys [title css]}]
   [:head
    [:meta {:charset "utf-8"}]
-   [:title title]])
+   [:title title]
+   [:style css]])
 
 (defn- doc-body [content]
   [:body content])
 
+(defn- copy-image [photo]
+  (let [photo-from-path (->path root-dir photo)
+        photo-to-path (->path root-dir "public" photo)]
+    (when (and photo (.exists (io/file photo-from-path)))
+      (io/copy (io/file photo-from-path) (io/file photo-to-path)))))
+
 (defn- compose-index [config]
   (let [write-path (->path root-dir "public" "index.html")
-        content (-> config index/render hc/html)
-        head (doc-head {:title (-> config :about :name)})
+               content (-> config index/render hc/html)
+        head (doc-head {:title (-> config :about :name)
+                        :css index/styles})
         body (doc-body content)
         document (hp/html5 head body)]  
     (io/make-parents write-path)
+    (copy-image (-> config :about :photo))
     (spit write-path document)))
 
 (defn -main [& _]

@@ -2,7 +2,8 @@
  :deps {org.clojure/clojure {:mvn/version "1.11.1"}
         com.github.clj-easy/graal-build-time {:mvn/version "0.1.4"}
         toml/toml {:mvn/version "0.1.4"}
-        hiccup/hiccup {:mvn/version "1.0.5"}}
+        hiccup/hiccup {:mvn/version "1.0.5"}
+        io.github.noprompt/garden {:git/sha "05590ecb5f6fa670856f3d1ab400aa4961047480"}}
  :aliases
  {:run-m {:main-opts ["-m" "askonomm.september"]}
   :run-x {:ns-default askonomm.september
