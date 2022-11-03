@@ -11,20 +11,21 @@
          :min-height "100vh"}
         [:.index
          {:width "525px"
+          :position "relative"
           :padding-top "20px"
           :padding-bottom "20px"}
          [:.photo
-          {:width "70px"
-           :border-radius "100%"
-           :margin-left "-8px"
-           :margin-bottom "35px"}]
+          {:width "90px"
+           :border-radius "10px"
+           :box-shadow "0px 1px 0px #fff, 0px 2px 0px #999, 0px 3px 0px #fff, 0px 4px 0px #999, 0px 3px 8px rgba(0,0,0,.25)"
+           :position "absolute"
+           :margin-top "3px"
+           :left "-125px"}]
          [:.name
-          {:font-size "19px"
-           :font-weight "600"
-           :margin-bottom "20px"}]
+          {:font-weight "800"
+           :margin-bottom "10px"}]
          [:.description
-          {:font-size "16px"
-           :color "#666"}]]]))
+          {:color "#666"}]]]))
 
 (defn render [{:keys [about]}]
   [:div.index
