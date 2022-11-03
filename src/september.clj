@@ -1,10 +1,11 @@
 (ns september
   (:require
-   [components]
-   [components.index :as index]
    [clojure.java.io :as io]
    [clojure.string :as string]
    [clojure.walk :refer [keywordize-keys]]
+   [components]
+   [components.index :as index]
+   [garden.core :refer [css]]
    [hiccup.core :as hc]
    [hiccup.page :as hp]
    [toml.core :as toml])
@@ -25,11 +26,13 @@
       toml/read
       keywordize-keys))
 
-(defn- doc-head [{:keys [title css]}]
+(defn- doc-head [{:keys [title styles]}]
   [:head
    [:meta {:charset "utf-8"}]
    [:title title]
-   [:style (str components/general-styles css)]])
+   [:style (str "@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,600;0,800;1,400;1,600&display=swap');"
+                (css components/general-styles) 
+                (css styles))]])
 
 (defn- doc-body [content]
   [:body content])
@@ -44,7 +47,7 @@
   (let [write-path (->path root-dir "public" "index.html")
                content (-> config index/render hc/html)
         head (doc-head {:title (-> config :about :name)
-                        :css index/styles})
+                        :styles index/styles})
         body (doc-body content)
         document (hp/html5 head body)]  
     (io/make-parents write-path)
