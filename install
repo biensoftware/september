@@ -10,4 +10,13 @@ else
   chmod +x september
 fi
 
-sudo mv september /usr/local/bin/september
+while [[ "$#" -gt 0 ]]; do
+  case $1 in
+    -g|--global) global="true"; shift ;;
+  esac
+  shift
+done
+
+if [ "$global" == "true" ]; then
+  sudo mv september /usr/local/bin/september
+fi
