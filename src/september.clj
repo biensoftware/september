@@ -26,13 +26,16 @@
       toml/read
       keywordize-keys))
 
-(defn- doc-head [{:keys [title styles]}]
+(defn- doc-head [{:keys [title styles responsive-styles]}]
   [:head
    [:meta {:charset "utf-8"}]
+   [:meta {:name "viewport" :content "width=device-width"}]
    [:title title]
    [:style (str "@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');" 
-                (css design/styles) 
-                (css styles))]])
+                (css design/styles
+                     design/responsive-styles
+                     styles
+                     responsive-styles))]]) 
 
 (defn- doc-body [content]
   [:body content])
@@ -47,7 +50,8 @@
   (let [write-path (->path root-dir "public" "index.html")
                content (-> config index/render hc/html)
         head (doc-head {:title (-> config :about :name)
-                        :styles index/styles})
+                        :styles index/styles
+                        :responsive-styles index/responsive-styles})
         body (doc-body content)
         document (hp/html5 head body)]  
     (io/make-parents write-path)

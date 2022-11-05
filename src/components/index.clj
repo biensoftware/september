@@ -1,4 +1,6 @@
-(ns components.index) 
+(ns components.index 
+  (:require
+   [garden.stylesheet :refer [at-media]])) 
 
 (def styles
   [:body
@@ -37,7 +39,7 @@
          :box-shadow "0px 3px 8px rgba(0,0,0,.3)"}]]
      [:.name
       {:font-size "18px"
-       :font-weight "800"
+       :font-weight "600"
        :margin-bottom "10px"}]
      [:.description
       {:font-size "16px"
@@ -55,6 +57,20 @@
       ["li:last-child:after"
        {:content "'.'"
         :margin-right "0"}]]]])
+
+(def responsive-styles
+  (at-media 
+    {:all true :max-device-width "600px"}
+    [:body
+     {:width "100%"
+      :min-width "auto"
+      :height "auto"
+      :min-height "auto"}
+     [:.index
+      {:width "100%"
+       :padding "0px"}
+      [:.links
+       {:margin-top "75px"}]]]))
 
 (defn- ->description-job [jobs]
   (when-let [current (->> jobs (filter #(= (:to (val %)) "present")) first last)]
