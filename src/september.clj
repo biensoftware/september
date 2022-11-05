@@ -3,7 +3,7 @@
    [clojure.java.io :as io]
    [clojure.string :as string]
    [clojure.walk :refer [keywordize-keys]]
-   [components]
+   [design]
    [components.index :as index]
    [garden.core :refer [css]]
    [hiccup.core :as hc]
@@ -30,8 +30,8 @@
   [:head
    [:meta {:charset "utf-8"}]
    [:title title]
-   [:style (str "@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,600;0,800;1,400;1,600&display=swap');"
-                (css components/general-styles) 
+   [:style (str "@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');" 
+                (css design/styles) 
                 (css styles))]])
 
 (defn- doc-body [content]

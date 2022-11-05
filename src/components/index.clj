@@ -1,8 +1,4 @@
-(ns components.index 
-  (:require
-   [components :refer [colors]]
-   [garden.selectors :as gs]))
-   
+(ns components.index) 
 
 (def styles
   [:body
@@ -12,7 +8,7 @@
      :min-width "100vw"
      :min-height "100vh"}
     [:.index
-     {:width "500px"
+     {:width "530px"
       :position "relative"
       :padding-top "20px"
       :padding-bottom "20px"}
@@ -21,43 +17,69 @@
        :content "''"
        :width "calc(100% - 2px)"
        :height "calc(100% - 2px)"
+       :background "linear-gradient(rgba(0,0,0,.05) 50%, rgba(255,255,255,.1) 50%)"
        :border "1px solid rgba(255,255,255,.2)"
-       :border-radius "5px"
+       :border-radius "100%"
+       :transform "rotate(-20deg)"
+       :z-index "10"
        :position "absolute"
        :top "0"
        :left "0"}]
      [:.photo
-      {:overflow "hidden"
-       :position "absolute"
-       :margin-top "3px"
-       :left "-125px"}
+      {:display "block"
+       :width "75px"
+       :overflow "hidden"
+       :margin-bottom "30px"} 
       [:img
         {:display "block"
-         :width "92px"
-         :border-radius "5px"
+         :width "75px"
+         :border-radius "100%"
          :box-shadow "0px 3px 8px rgba(0,0,0,.3)"}]]
      [:.name
-      {:font-weight "800"
+      {:font-size "18px"
+       :font-weight "800"
        :margin-bottom "10px"}]
      [:.description
-      {:color "#eee"}]]])
+      {:font-size "16px"
+       :color "#eee"}]
+     [:.links
+      {:margin-top "50px"}
+      [:li
+       {:display "inline-block"
+        :color "rgba(255,255,255,.3)"
+        :list-style "none"}]
+      ["li:after"
+       {:display "inline-block"
+        :content "','"
+        :margin-right "4px"}]
+      ["li:last-child:after"
+       {:content "'.'"
+        :margin-right "0"}]]]])
 
 (defn- ->description-job [jobs]
   (when-let [current (->> jobs (filter #(= (:to (val %)) "present")) first last)]
     [:span
-     "I'm currently spending my days at "
+     "Currently working for "
      [:a {:href (:url current)} (:company current)]
-     " as a "
-     (:position current)
+     (when (:position current)
+       [:span 
+        " as a "
+        (:position current)])
      ". "]))
 
 (defn- ->description-contact [email]                      
   [:span
-   "You can get in touch with me via "
+   "You can get in touch via "
    [:a {:href (str "mailto:" email)} email]
    "."])
 
-(defn render [{:keys [about jobs]}]
+(defn ->links [links]
+  [:ul
+   (for [link links]
+     [:li
+      [:a {:href (:url (val link))} (:label (val link))]])])
+
+(defn render [{:keys [about jobs links]}]
   [:div.index
    (when (:photo about)
      [:div.photo
@@ -70,4 +92,8 @@
     (when jobs
       (->description-job jobs))
     (when (:email about)
-      (->description-contact (:email about)))]])
+      (->description-contact (:email about)))]
+   (when links
+     [:div.links
+      [:h2 "Elsewhere"]
+      (->links links)])])
